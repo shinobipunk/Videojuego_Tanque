@@ -1,0 +1,386 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	LCDDEMO.ASM
+	Object File:	LCDDEMO.hex
+	List File:	LCDDEMO.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				; LCD Display Driver Demo.
+    2:				; Timing code assumes 1.2MHz Clock
+    3:
+    4:				;LCD Registers addresses
+    5:		N      0000	LCD_CMD_WR	equ 	0
+    6:		N      0001	LCD_DATA_WR	equ	1
+    7:		N      0002	LCD_BUSY_RD	equ	2
+    8:		N      0003	LCD_DATA_RD	equ	3
+    9:
+   10:				;LCD Commands
+   11:		N      0001	LCD_CLS		equ	1
+   12:		N      0002	LCD_HOME	equ	2
+   13:		N      0004	LCD_SETMODE	equ	4
+   14:		N      0008	LCD_SETVISIBLE	equ	8
+   15:		N      0010	LCD_SHIFT	equ	16
+   16:		N      0020	LCD_SETFUNCTION	equ	32
+   17:		N      0040	LCD_SETCGADDR	equ	64
+   18:		N      0080	LCD_SETDDADDR	equ	128
+   19:
+   20:				;Reset vector
+   21:		N      0000		org 0000h
+   22:	  0000	02 01 6A		jmp start
+   23:
+   24:
+   25:				;Start of the program
+   26:		N      0100		org 0100h
+   27:
+   28:	  0100	20 21 21 20	string1a:db ' !! A M A Z I N G !! '
+	  0104	41 20 4D 20
+	  0108	41 20 5A 20
+	  010C	49 20 4E 20
+	  0110	47 20 21 21
+	  0114	20
+   29:	  0115	00			 db 0
+   30:	  0116	21 21 20 41	string1b:db '!! A M A Z I N G !! '
+	  011A	20 4D 20 41
+	  011E	20 5A 20 49
+	  0122	20 4E 20 47
+	  0126	20 21 21 20
+   31:	  012A	00			 db 0
+   32:	  012B	20 41 20 76	string2:db ' A virtual LM032L... '
+	  012F	69 72 74 75
+	  0133	61 6C 20 4C
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+	  0137	4D 30 33 32
+	  013B	4C 2E 2E 2E
+	  013F	20
+   33:	  0140	00			db 0
+   34:
+   35:	  0141	20 64 72 69	string3:db ' driven by a virtual '
+	  0145	76 65 6E 20
+	  0149	62 79 20 61
+	  014D	20 76 69 72
+	  0151	74 75 61 6C
+	  0155	20
+   36:	  0156	00			db 0
+   37:	  0157	20 20 20 38	string4:db '   8051 processor!'
+	  015B	30 35 31 20
+	  015F	70 72 6F 63
+	  0163	65 73 73 6F
+	  0167	72 21
+   38:	  0169	00			db 0
+   39:
+   40:	  016A	74 38		start:	mov A,#038h
+   41:	  016C	12 02 11		call wrcmd
+   42:
+   43:	  016F	74 0E		loop:	mov A,#LCD_SETVISIBLE+6 	;Make the display & blink visible:
+   44:	  0171	12 02 11		call wrcmd
+   45:
+   46:	  0174	7F 02			mov R7,#2
+   47:	  0176			loop2:
+   48:	  0176	90 01 00		mov DPTR,#string1a
+   49:	  0179	12 01 DF		call wrstr
+   50:
+   51:	  017C	90 00 C8	 	mov DPTR,#200
+   52:	  017F	12 02 2C	 	call wtms
+   53:
+   54:	  0182	74 01			mov A,#LCD_CLS			;Clear screen
+   55:	  0184	12 02 11		call wrcmd
+   56:
+   57:	  0187	90 01 16		mov DPTR,#string1b
+   58:	  018A	12 01 DF		call wrstr
+   59:
+   60:	  018D	90 00 C8	 	mov DPTR,#200
+   61:	  0190	12 02 2C	 	call wtms
+   62:
+   63:	  0193	74 01			mov A,#LCD_CLS			;Clear screen
+   64:	  0195	12 02 11		call wrcmd
+   65:
+   66:	  0198	DF DC			djnz R7,loop2
+   67:
+   68:	  019A	90 01 00		mov DPTR,#string1a
+   69:	  019D	12 01 DF		call wrstr
+   70:
+   71:	  01A0	90 01 90	 	mov DPTR,#400
+   72:	  01A3	12 02 2C	 	call wtms
+   73:
+   74:	  01A6	74 C0			mov A,#LCD_SETDDADDR+64
+   75:	  01A8	12 02 11		call wrcmd
+   76:
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+ Line  I  Addr  Code            Source
+
+   77:	  01AB	90 01 2B		mov DPTR,#string2
+   78:	  01AE	12 01 F5		call wrslow
+   79:
+   80:	  01B1	90 00 C8	 	mov DPTR,#200
+   81:	  01B4	12 02 2C	 	call wtms
+   82:
+   83:	  01B7	74 01			mov A,#LCD_CLS			;Clear screen
+   84:	  01B9	12 02 11		call wrcmd
+   85:
+   86:	  01BC	90 01 41		mov DPTR,#string3
+   87:	  01BF	12 01 F5		call wrslow
+   88:
+   89:	  01C2	74 C0		        mov A,#LCD_SETDDADDR+64
+   90:	  01C4	12 02 11		call wrcmd
+   91:
+   92:	  01C7	90 01 57		mov DPTR,#string4
+   93:	  01CA	12 01 F5		call wrslow
+   94:
+   95:	  01CD	74 0F			mov A,#LCD_SETVISIBLE+7		;Show the blink cursor as well.
+   96:	  01CF	12 02 11		call wrcmd
+   97:
+   98:	  01D2	90 07 D0	 	mov DPTR,#2000
+   99:	  01D5	12 02 2C	 	call wtms
+  100:
+  101:	  01D8	74 01			mov A,#LCD_CLS			;Clear screen
+  102:	  01DA	12 02 11		call wrcmd
+  103:
+  104:	  01DD	80 90			jmp loop
+  105:
+  106:
+  107:				;Sub routine to write null terminated string at DPTR in program ram.
+  108:	  01DF	78 01		wrstr:	mov R0,#LCD_DATA_WR
+  109:	  01E1	E4		wrstr1:	clr A
+  110:	  01E2	93			movc A,@A+DPTR
+  111:	  01E3	60 0F			jz wrstr2
+  112:	  01E5	F2			movx @R0,A
+  113:	  01E6	12 02 1A		call wtbusy
+  114:	  01E9	A3			inc DPTR
+  115:	  01EA	C0 82			push DPL
+  116:	  01EC	C0 83			push DPH
+  117:	  01EE	D0 83			pop DPH
+  118:	  01F0	D0 82			pop DPL
+  119:	  01F2	80 ED			jmp wrstr1
+  120:	  01F4	22		wrstr2:	ret
+  121:
+  122:				;Sub routine to write null terminated string at DPTR in program ram. Slowly
+  123:	  01F5	78 01		wrslow:	mov R0,#LCD_DATA_WR
+  124:	  01F7	E4		wrslw1:	clr A
+  125:	  01F8	93			movc A,@A+DPTR
+  126:	  01F9	60 15			jz wrslw2
+  127:	  01FB	F2			movx @R0,A
+  128:	  01FC	12 02 1A		call wtbusy
+  129:	  01FF	A3			inc DPTR
+  130:	  0200	C0 82			push DPL
+  131:	  0202	C0 83			push DPH
+  132:	  0204	90 00 64	        mov DPTR,#100
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+ Line  I  Addr  Code            Source
+
+  133:	  0207	12 02 2C	        call wtms
+  134:	  020A	D0 83			pop DPH
+  135:	  020C	D0 82			pop DPL
+  136:	  020E	80 E7			jmp wrslw1
+  137:	  0210	22		wrslw2:	ret
+  138:
+  139:
+  140:				;Sub routine to write command:
+  141:	  0211	78 00		wrcmd:	mov R0,#LCD_CMD_WR
+  142:	  0213	F2			movx @R0,A
+  143:	  0214	02 02 1A		jmp wtbusy
+  144:
+  145:
+  146:				;Sub routine to write character:
+  147:	  0217	78 01		wrchar:	mov R0,#LCD_DATA_WR
+  148:	  0219	F2			movx @R0,A
+  149:
+  150:				;Subroutine to wait for busy clear
+  151:	  021A	79 02		wtbusy: mov R1,#LCD_BUSY_RD
+  152:	  021C	E3			movx A,@r1
+  153:	  021D	20 E7 FA		jb ACC.7,wtbusy
+  154:	  0220	22			ret
+  155:
+  156:				;Wait for number of seconds in A
+  157:	  0221	C0 E0		wtsec:	push ACC
+  158:	  0223	12 02 2C		call wtms
+  159:	  0226	D0 E0			pop ACC
+  160:	  0228	14			dec A
+  161:	  0229	70 F6			jnz wtsec
+  162:	  022B	22			ret
+  163:
+  164:				;Wait for number of milliseconds in DPTR
+  165:	  022C	63 82 FF	wtms:   xrl DPL,#0FFh			;Can't do DEC DPTR, so do the loop by forming 2's complement
+  166:	  022F	63 83 FF		xrl DPH,#0FFh			;and incrementing instead.
+  167:	  0232	A3			inc DPTR
+  168:	  0233	75 8A 9C	wtms1:	mov TL0,#09Ch			;100 ticks before overflow = 1ms at 1.2MHz Clock
+  169:	  0236	75 8C FF		mov TH0,#0FFh
+  170:	  0239	75 89 01		mov TMOD,#1			;Timer 0 mode 1
+  171:	  023C	D2 8C			setb TCON.4			;Timer 0 runs
+  172:	  023E	30 8D FD	wtms2:	jnb TCON.5,wtms2
+  173:	  0241	C2 8C			clr TCON.4			;Timer 0 stops
+  174:	  0243	C2 8D			clr TCON.5
+  175:	  0245	A3			inc DPTR
+  176:	  0246	E5 82			mov A,DPL
+  177:	  0248	45 83			orl A,DPH
+  178:	  024A	70 E7			jnz wtms1
+  179:	  024C	22			ret
+  180:
+  181:
+  182:					END
+
+
+
+
+
+                     register banks used:  ---
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 5
+
+
+
+
+                     no errors
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 6
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+CY				  BIT	      D7
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+LCD_BUSY_RD			  NUMBER    0002	   7
+LCD_CLS				  NUMBER    0001	  11
+LCD_CMD_WR			  NUMBER    0000	   5
+LCD_DATA_RD			  NUMBER    0003	   8
+LCD_DATA_WR			  NUMBER    0001	   6
+LCD_HOME			  NUMBER    0002	  12
+LCD_SETCGADDR			  NUMBER    0040	  17
+LCD_SETDDADDR			  NUMBER    0080	  18
+LCD_SETFUNCTION			  NUMBER    0020	  16
+LCD_SETMODE			  NUMBER    0004	  13
+LCD_SETVISIBLE			  NUMBER    0008	  14
+LCD_SHIFT			  NUMBER    0010	  15
+LOOP				  CODE	    016F	  43
+LOOP2				  CODE	    0176	  47
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 7
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+START				  CODE	    016A	  40
+STRING1A			  CODE	    0100	  28
+STRING1B			  CODE	    0116	  30
+STRING2				  CODE	    012B	  32
+STRING3				  CODE	    0141	  35
+STRING4				  CODE	    0157	  37
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6
+WRCHAR				  CODE	    0217	 147
+WRCMD				  CODE	    0211	 141
+WRSLOW				  CODE	    01F5	 123
+WRSLW1				  CODE	    01F7	 124
+WRSLW2				  CODE	    0210	 137
+WRSTR				  CODE	    01DF	 108
+WRSTR1				  CODE	    01E1	 109
+WRSTR2				  CODE	    01F4	 120
+WTBUSY				  CODE	    021A	 151
+WTMS				  CODE	    022C	 165
+WTMS1				  CODE	    0233	 168
+WTMS2				  CODE	    023E	 172
+WTSEC				  CODE	    0221	 157

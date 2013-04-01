@@ -1,0 +1,335 @@
+BL51 BANKED LINKER/LOCATER V6.20                                                        11/24/2010  18:22:43  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.20, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE .\animacionsimb.obj TO juegonave RAMSIZE (256) CODE (0X0000-0X1FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\animacionsimb.obj (ANIMACIONSIMB)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  juegonave (ANIMACIONSIMB)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?ANIMACIONSIMB
+            IDATA   000EH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     00C1H     UNIT         ?PR?GRAFICOS?ANIMACIONSIMB
+            CODE    00C7H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0153H     0089H     UNIT         ?PR?MAIN?ANIMACIONSIMB
+            CODE    01DCH     0045H     UNIT         ?PR?ENEMIGO?ANIMACIONSIMB
+            CODE    0221H     003FH     UNIT         ?PR?_DELAY?ANIMACIONSIMB
+            CODE    0260H     0027H     UNIT         ?PR?INTEXT?ANIMACIONSIMB
+            CODE    0287H     0021H     UNIT         ?PR?_LCD_DATO?ANIMACIONSIMB
+            CODE    02A8H     0018H     UNIT         ?PR?LCD_INI?ANIMACIONSIMB
+            CODE    02C0H     0017H     UNIT         ?PR?_LCD_COMANDO?ANIMACIONSIMB
+            CODE    02D7H     0005H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   juegonave (ANIMACIONSIMB)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?INTEXT?ANIMACIONSIMB
+  +--> ?PR?_DELAY?ANIMACIONSIMB
+
+?PR?_DELAY?ANIMACIONSIMB
+  +--> ?PR?_LCD_DATO?ANIMACIONSIMB
+  +--> ?PR?_LCD_COMANDO?ANIMACIONSIMB
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?ANIMACIONSIMB
+  +--> ?C_INITSEG
+BL51 BANKED LINKER/LOCATER V6.20                                                      11/24/2010  18:22:43  PAGE 2
+
+
+
+?PR?MAIN?ANIMACIONSIMB
+  +--> ?PR?LCD_INI?ANIMACIONSIMB
+  +--> ?PR?GRAFICOS?ANIMACIONSIMB
+  +--> ?PR?ENEMIGO?ANIMACIONSIMB
+  +--> ?PR?_LCD_COMANDO?ANIMACIONSIMB
+  +--> ?PR?_DELAY?ANIMACIONSIMB
+  +--> ?PR?_LCD_DATO?ANIMACIONSIMB
+
+?PR?LCD_INI?ANIMACIONSIMB
+  +--> ?PR?_LCD_COMANDO?ANIMACIONSIMB
+  +--> ?PR?_DELAY?ANIMACIONSIMB
+
+?PR?GRAFICOS?ANIMACIONSIMB
+  +--> ?PR?_LCD_COMANDO?ANIMACIONSIMB
+  +--> ?PR?_LCD_DATO?ANIMACIONSIMB
+
+?PR?ENEMIGO?ANIMACIONSIMB
+  +--> ?PR?_LCD_COMANDO?ANIMACIONSIMB
+  +--> ?PR?_DELAY?ANIMACIONSIMB
+
+
+
+SYMBOL TABLE OF MODULE:  juegonave (ANIMACIONSIMB)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ANIMACIONSIMB
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  C:0240H         PUBLIC        _delay
+  D:00A0H         PUBLIC        lcd_P2
+  B:0080H.1       PUBLIC        puerto
+  C:0153H         PUBLIC        main
+  D:0008H         PUBLIC        dec
+  C:0296H         PUBLIC        _lcd_dato
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  C:0006H         PUBLIC        graficos
+  B:00B0H.6       PUBLIC        en
+  C:02A8H         PUBLIC        lcd_ini
+  C:0260H         PUBLIC        IntExt
+  D:000AH         PUBLIC        e
+  B:00B0H.0       PUBLIC        rs
+  C:01DCH         PUBLIC        enemigo
+  B:00B0H.1       PUBLIC        rw
+  D:000CH         PUBLIC        dispdir
+  C:02C5H         PUBLIC        _lcd_comando
+  C:022BH         SYMBOL        L?0039
+  C:0234H         SYMBOL        L?0040
+  C:0239H         SYMBOL        L?0041
+  C:023CH         SYMBOL        L?0042
+  -------         PROC          L?0038
+  -------         ENDPROC       L?0038
+BL51 BANKED LINKER/LOCATER V6.20                                                      11/24/2010  18:22:43  PAGE 3
+
+
+  C:022BH         SYMBOL        L?0039
+  C:0234H         SYMBOL        L?0040
+  C:0239H         SYMBOL        L?0041
+  C:023CH         SYMBOL        L?0042
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        contador
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0240H         LINE#         12
+  C:0240H         LINE#         13
+  C:0240H         LINE#         15
+  C:024AH         LINE#         16
+  C:025FH         LINE#         17
+  -------         ENDPROC       _DELAY
+  C:02C0H         SYMBOL        L?0044
+  -------         PROC          L?0043
+  -------         ENDPROC       L?0043
+  C:02C0H         SYMBOL        L?0044
+  -------         PROC          _LCD_COMANDO
+  D:0007H         SYMBOL        comm
+  C:02C5H         LINE#         19
+  C:02C5H         LINE#         20
+  C:02C5H         LINE#         21
+  C:02C7H         LINE#         22
+  C:02C9H         LINE#         23
+  C:02CBH         LINE#         24
+  C:02CDH         LINE#         25
+  C:02D4H         LINE#         26
+  C:02D6H         LINE#         27
+  -------         ENDPROC       _LCD_COMANDO
+  C:028CH         SYMBOL        L?0035
+  C:028FH         SYMBOL        L?0036
+  C:0291H         SYMBOL        L?0037
+  -------         PROC          L?0034
+  -------         ENDPROC       L?0034
+  C:028CH         SYMBOL        L?0035
+  C:028FH         SYMBOL        L?0036
+  C:0291H         SYMBOL        L?0037
+  -------         PROC          _LCD_DATO
+  D:0007H         SYMBOL        disp
+  C:0296H         LINE#         29
+  C:0296H         LINE#         30
+  C:0296H         LINE#         31
+  C:0298H         LINE#         32
+  C:029AH         LINE#         33
+  C:029CH         LINE#         34
+  C:029EH         LINE#         35
+  C:02A5H         LINE#         36
+  C:02A7H         LINE#         37
+  -------         ENDPROC       _LCD_DATO
+  -------         PROC          LCD_INI
+  C:02A8H         LINE#         39
+  C:02A8H         LINE#         40
+  C:02A8H         LINE#         41
+  C:02ADH         LINE#         42
+BL51 BANKED LINKER/LOCATER V6.20                                                      11/24/2010  18:22:43  PAGE 4
+
+
+  C:02B4H         LINE#         43
+  C:02B9H         LINE#         44
+  -------         ENDPROC       LCD_INI
+  -------         PROC          ENEMIGO
+  C:01DCH         LINE#         48
+  C:01DCH         LINE#         49
+  C:01DCH         LINE#         50
+  C:01E2H         LINE#         51
+  C:01E8H         LINE#         52
+  C:01EEH         LINE#         53
+  C:01EEH         LINE#         54
+  C:01EEH         LINE#         55
+  C:01F3H         LINE#         56
+  C:01F8H         LINE#         57
+  C:01FAH         LINE#         58
+  C:01FDH         LINE#         59
+  C:0205H         LINE#         60
+  C:0208H         LINE#         61
+  C:0208H         LINE#         62
+  C:0208H         LINE#         63
+  C:0208H         LINE#         64
+  C:0208H         LINE#         65
+  C:0208H         LINE#         66
+  C:0208H         LINE#         67
+  C:020BH         LINE#         68
+  C:0220H         LINE#         70
+  -------         ENDPROC       ENEMIGO
+  -------         PROC          INTEXT
+  C:0260H         LINE#         73
+  C:0273H         LINE#         75
+  C:0276H         LINE#         76
+  -------         ENDPROC       INTEXT
+  -------         PROC          GRAFICOS
+  C:0006H         LINE#         78
+  C:0006H         LINE#         79
+  C:0006H         LINE#         81
+  C:000BH         LINE#         82
+  C:0010H         LINE#         83
+  C:0015H         LINE#         84
+  C:001AH         LINE#         85
+  C:001FH         LINE#         86
+  C:0024H         LINE#         87
+  C:0029H         LINE#         88
+  C:002BH         LINE#         89
+  C:002EH         LINE#         90
+  C:0033H         LINE#         91
+  C:0038H         LINE#         93
+  C:003DH         LINE#         94
+  C:003FH         LINE#         95
+  C:003FH         LINE#         96
+  C:0042H         LINE#         97
+  C:0044H         LINE#         98
+  C:0044H         LINE#         99
+  C:0047H         LINE#         100
+  C:0047H         LINE#         101
+  C:004AH         LINE#         102
+  C:004FH         LINE#         103
+BL51 BANKED LINKER/LOCATER V6.20                                                      11/24/2010  18:22:43  PAGE 5
+
+
+  C:0054H         LINE#         106
+  C:0059H         LINE#         107
+  C:005EH         LINE#         108
+  C:0063H         LINE#         109
+  C:0068H         LINE#         110
+  C:006DH         LINE#         111
+  C:006FH         LINE#         112
+  C:006FH         LINE#         113
+  C:006FH         LINE#         114
+  C:0072H         LINE#         115
+  C:0077H         LINE#         116
+  C:007CH         LINE#         119
+  C:0081H         LINE#         120
+  C:0083H         LINE#         121
+  C:0086H         LINE#         122
+  C:008BH         LINE#         123
+  C:008DH         LINE#         124
+  C:0090H         LINE#         125
+  C:0092H         LINE#         126
+  C:0092H         LINE#         127
+  C:0095H         LINE#         128
+  C:009AH         LINE#         129
+  C:009FH         LINE#         131
+  C:00A4H         LINE#         132
+  C:00A9H         LINE#         133
+  C:00AEH         LINE#         134
+  C:00B3H         LINE#         135
+  C:00B8H         LINE#         136
+  C:00BAH         LINE#         137
+  C:00BAH         LINE#         138
+  C:00BAH         LINE#         139
+  C:00BDH         LINE#         140
+  C:00C2H         LINE#         141
+  -------         ENDPROC       GRAFICOS
+  -------         PROC          MAIN
+  C:0153H         LINE#         145
+  C:0153H         LINE#         146
+  C:0153H         LINE#         148
+  C:0155H         LINE#         149
+  C:0157H         LINE#         150
+  C:0159H         LINE#         151
+  C:015BH         LINE#         153
+  C:015EH         LINE#         154
+  C:0161H         LINE#         156
+  C:0161H         LINE#         158
+  C:0164H         LINE#         160
+  C:0167H         LINE#         162
+  C:0174H         LINE#         163
+  C:0174H         LINE#         165
+  C:017CH         LINE#         167
+  C:017EH         LINE#         168
+  C:0181H         LINE#         169
+  C:0183H         LINE#         170
+  C:0183H         LINE#         172
+  C:0183H         LINE#         173
+  C:0183H         LINE#         174
+  C:0183H         LINE#         175
+BL51 BANKED LINKER/LOCATER V6.20                                                      11/24/2010  18:22:43  PAGE 6
+
+
+  C:0186H         LINE#         177
+  C:018BH         LINE#         178
+  C:0190H         LINE#         179
+  C:0192H         LINE#         180
+  C:0195H         LINE#         182
+  C:01A1H         LINE#         183
+  C:01A1H         LINE#         184
+  C:01A3H         LINE#         185
+  C:01A6H         LINE#         186
+  C:01ABH         LINE#         187
+  C:01B2H         LINE#         189
+  C:01B7H         LINE#         190
+  C:01B9H         LINE#         191
+  C:01B9H         LINE#         192
+  C:01BCH         LINE#         193
+  C:01BFH         LINE#         194
+  C:01BFH         LINE#         196
+  C:01C7H         LINE#         198
+  C:01C9H         LINE#         199
+  C:01CCH         LINE#         200
+  C:01CEH         LINE#         201
+  C:01CEH         LINE#         203
+  C:01CEH         LINE#         204
+  C:01CEH         LINE#         205
+  C:01CEH         LINE#         206
+  C:01D1H         LINE#         208
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        ANIMACIONSIMB
+
+Program Size: data=15.0 xdata=0 code=732
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
